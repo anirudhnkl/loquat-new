@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Container, Row, Col, /*Button*/ } from "react-bootstrap";
+import Portfolio from "../components/Portfolio/Portfolio";
+import GroupCards from "../components/GroupCards/GroupCards";
+
 import "./Dashboard.css";
 
 class Dashboard extends Component {
@@ -32,12 +35,12 @@ class Dashboard extends Component {
         <Container>
             <Row>
               <Col md="auto">
-                Portfolio Component
+                <Portfolio />
               </Col>
             </Row>
             <Row>
               <Col md="auto">
-                Groups Component
+                <GroupCards />
               </Col>
             </Row>
         </Container>

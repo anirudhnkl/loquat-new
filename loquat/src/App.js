@@ -49,7 +49,7 @@ class App extends Component {
           {this.state.isAuthenticated
             ? <Navbar.Collapse id="nav navbar-nav">
                 <Nav className="ml-auto">
-                  <Nav.Link href="/about">About</Nav.Link>
+                  <Nav.Link href="/Profile">Profile</Nav.Link>
                   <Nav.Link onClick={this.handleLogout}>Logout</Nav.Link>
                 </Nav>
               </Navbar.Collapse>

@@ -1,8 +1,8 @@
 .App {
-  text-align: center;
+  background: none;
 }
 
-.App-logo {
+/* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
@@ -21,6 +21,19 @@
 
 .App-link {
   color: #61dafb;
+} */
+
+.jumbotron {
+  background: url(./background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  text-align: left;
+  height: calc(100vh - 56px);
+  margin: 0px;
+  padding: 35vh;
+  color: black;
 }
 
 @keyframes App-logo-spin {

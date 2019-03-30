@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Container, Row, Col, Jumbotron, Button } from 'react-bootstrap';
+import NavBar from './components/NavBar/NavBar'
+
+// import logo from './logo.svg';
+// import background from './background.jpg'
 import './App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+        <NavBar />
+        <Jumbotron bsPrefix='jumbotron' fluid>
+          <h1>Loquat</h1>
+          <h4>
+            Social Investing Made Easy
+          </h4>
+          <br />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            <Button variant="primary">Learn more</Button>
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        </Jumbotron>
       </div>
     );
   }

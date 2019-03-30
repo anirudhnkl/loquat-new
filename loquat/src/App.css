@@ -1,5 +1,9 @@
 .App {
-  background: none;
+  background: #F2F3F3;
+}
+
+.App .navbar-brand {
+  font-weight: bold;
 }
 
 /* .App-logo {
@@ -22,19 +26,6 @@
 .App-link {
   color: #61dafb;
 } */
-
-.jumbotron {
-  background: url(./background.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  text-align: left;
-  height: calc(100vh - 56px);
-  margin: 0px;
-  padding: 35vh;
-  color: black;
-}
 
 @keyframes App-logo-spin {
   from {

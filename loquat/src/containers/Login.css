@@ -1,0 +1,9 @@
+.Login {
+    padding: 25vh;
+    height: calc(100vh - 56px);
+}
+
+.Login form {
+    margin: 0 auto;
+    max-width: 320px;
+}

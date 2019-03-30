@@ -1,0 +1,6 @@
+.NotFound {
+    padding-top: 150px;
+    text-align: center;
+    color: black;
+    height: calc(100vh - 56px);
+}

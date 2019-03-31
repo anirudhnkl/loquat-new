@@ -65,7 +65,7 @@ def show_user_portfolio(user_id):
 
     return json.dumps(portfolioList)
 
-@app.route('/user/groups/<group_id>')
+@app.route('/user/groups/<user_id>')
 def show_user_groups(user_id):
     # show the groups of the user
     doc_ref = db.collection(u'users').document(user_id)
@@ -77,14 +77,18 @@ def show_user_groups(user_id):
         groupCapital = {}
 
         count = 1
-        for group in groups.keys():
-            members = db.collection(u'groups').document(group).get().to_dict()['members']
-            amt = 0
-            for value in members.values():
-                amt = amt + int(value)
+        for name, amt in groups.items():
+            portfolio_name = db.collection(u'groups').document(group).get().to_dict()['portfolio']
+            stocks = db.collection(u'portfolio').document(portfolio_name).get().to_dict()['portfolio']
+
+            capt = 0
+            for stock, quantity in stocks.items():
+                a = Stock(stock, token="pk_4552c3e208aa495ea2803d07e1b2feb0")
+                capt = capt + (int(a.get_price()) * int(quantity))
             
             groupCapital['name'] = group
-            groupCapital['group'] = amt
+            groupCapital['amt'] = amt
+            groupCapital['value'] = capt
             
             groupList[str(count)] = (json.dumps(groupCapital))
             count += 1
@@ -102,3 +106,34 @@ if __name__ == '__main__':
     # can be configured by adding an `entrypoint` to app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
 # [END gae_python37_app]
+
+
+# # Extra:
+# def show_user_groups(user_id):
+#     # show the groups of the user
+#     doc_ref = db.collection(u'users').document(user_id)
+#     try:
+#         doc = doc_ref.get()
+#         groups = doc.to_dict()['groups']
+        
+#         groupList = {}
+#         groupCapital = {}
+
+#         count = 1
+#         for group in groups.keys():
+#             members = db.collection(u'groups').document(group).get().to_dict()['members']
+#             amt = 0
+#             for value in members.values():
+#                 amt = amt + int(value)
+            
+#             groupCapital['name'] = group
+#             groupCapital['group'] = amt
+            
+#             groupList[str(count)] = (json.dumps(groupCapital))
+#             count += 1
+
+#     except:
+#         print(u'No such document!')
+#         return "ERROR"
+
+#     return json.dumps(groupList)

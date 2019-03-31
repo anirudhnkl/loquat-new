@@ -165,7 +165,7 @@ def show_groups_members(group_id):
 
 @app.route('/groups/pending/<group_id>')
 def show_groups_pending(group_id):
-    # show the members of the group
+    # show the pending stock of the group
     doc_ref = db.collection(u'groups').document(group_id)
     try:
         doc = doc_ref.get()
@@ -175,7 +175,7 @@ def show_groups_pending(group_id):
         pendingObj = {}
 
         count = 1
-        for stock, votes in members.items():
+        for stock, votes in pending.items():
             pendingObj['stock'] = stock
             pendingObj['yes'] = votes['yes']
             pendingObj['no'] = votes['no']

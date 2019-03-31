@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, ButtonToolbar, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import axios from "axios";
 import Portfolio from "../components/Portfolio/Portfolio";
 import Members from "../components/Members/Members";
@@ -60,8 +60,10 @@ class Group extends Component {
       .then((response) => {
         var pending_trades = []
         for (let trade in response.data) {
-          let data = JSON.parse(response.data[trade]);
-          pending_trades.push({id: trade, ...data});
+          console.log(response.data[trade]);
+          
+          // let data = JSON.parse(response.data[trade]);
+          // pending_trades.push({id: trade, ...data});
         }
         this.setState({ 
           isLoading: false,

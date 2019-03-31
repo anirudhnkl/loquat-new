@@ -18,11 +18,13 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from iexfinance.stocks import Stock
+from flask_cors import CORS
 import json
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = Flask(__name__)
+CORS(app)
 
 # Use a service account
 cred = credentials.Certificate("Loquat-a526045a3f62.json")

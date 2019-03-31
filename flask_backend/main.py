@@ -48,19 +48,22 @@ def show_user_profile(user_id):
         print('Portfolio:'+ portfolio_name)
         stocks = db.collection(u'portfolio').document(portfolio_name).get().to_dict()['portfolio']
 
-        portfolioList = []
+        portfolioList = {}
         stockObj = {}
+        count = 1
         for stock, quantity in stocks.items():
             a = Stock(stock, token="pk_4552c3e208aa495ea2803d07e1b2feb0")
             stockObj['symbol'] = stock
             stockObj['price'] = a.get_price()
             stockObj['quantity'] = quantity
-            portfolioList.append(json.dumps(stockObj))
+
+            portfolioList[str(count)] = (json.dumps(stockObj))
+            count += 1
     except:
         print(u'No such document!')
         return "ERROR"
 
-    return str(portfolioList)
+    return json.dumps(portfolioList)
 
 @app.route('/group/<group_id>')
 def show_post(group_id):

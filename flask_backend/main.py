@@ -97,6 +97,31 @@ def show_user_groups(user_id):
 
     return json.dumps(groupList)
 
+@app.route('/groups/portfolio/<group_id>')
+def show_user_portfolio(group_id):
+    # show the portfolio for a group
+    doc_ref = db.collection(u'users').document(group_id)
+    try:
+        doc = doc_ref.get()
+        portfolio_name = doc.to_dict()['portfolio']
+        stocks = db.collection(u'portfolio').document(portfolio_name).get().to_dict()['portfolio']
+
+        portfolioList = {}
+        stockObj = {}
+        count = 1
+        for stock, quantity in stocks.items():
+            a = Stock(stock, token="pk_4552c3e208aa495ea2803d07e1b2feb0")
+            stockObj['symbol'] = stock
+            stockObj['price'] = a.get_price()
+            stockObj['quantity'] = quantity
+
+            portfolioList[str(count)] = (json.dumps(stockObj))
+            count += 1
+
+    except Exception as e:
+        return str(e)
+
+    return json.dumps(portfolioList)
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App

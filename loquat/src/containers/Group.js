@@ -1,62 +1,74 @@
 import React, { Component } from "react";
 import { Button, ButtonToolbar, Col, Container, Row, /*Button*/ } from "react-bootstrap";
+import axios from "axios";
 import Portfolio from "../components/Portfolio/Portfolio";
+import Members from "../components/Members/Members";
 
 import "./Group.css";
 
 class Group extends Component {
-    constructor(props) {
-        super(props)
-        
-        this.state = {
-          stocks: [],
-          members: [],
-          pending_trades: []
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      stocks: [],
+      members: []
+      // pending_trades: []
+    }
+  }
+
+  componentDidMount() {
+    axios.get('https://loquat.appspot.com/groups/portfolio/' + this.props.groupId)
+      .then((response) => {
+        var stocks = []
+        for (let stock in response.data) {
+          let data = JSON.parse(response.data[stock]);
+          stocks.push({id: stock, ...data});
         }
-    }
+        this.setState({ stocks: stocks });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
+    // axios.get('https://loquat.appspot.com/groups/members/' + this.props.groupId)
+    //   .then((response) => {
+    //     var groups = []
+    //     for (let group in response.data) {
+    //       let data = JSON.parse(response.data[group]);
+    //       groups.push({id: group, ...data});
+    //     }
+    //     this.setState({ groups: groups });
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  }
 
-    render() {
-        return (
-        <div className="Group">
-            <Container>
-                <Row>
-                    <h1>GID: {this.props.groupId}</h1>
-                </Row>
-                <Row>
-                    <Col md="auto">
-                        <Portfolio {...this.props} stocks={this.state.stocks} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md="auto">
-                        <div className="Members">
-                        <h2>Members</h2>
-                        <hr />
-                        {this.state.members.map(member => (
-                            <div className="container" key={member.id}>
-                                <ButtonToolbar>
-                                    <div className="col-sm">
-                                    <p className="name">Name: {member.name}</p>
-                                    </div>
-                                    <div className="col-sm">
-                                    <Button variant="info" className="btn btn-primary amt" disabled>{member.amt}</Button>
-                                    </div>
-                                </ButtonToolbar>
-                            </div>
-                        ))}
-                        </div>
-                    </Col>
-                </Row>
-                {/* <Row>
-                    <Col md="auto">
-                        <GroupCards {...this.props} groups={this.state.groups} />
-                    </Col>
-                </Row> */}
-            </Container>
-        </div>
-        );
-    }
+  render() {
+    return (
+    <div className="Group">
+      <Container>
+        <Row>
+          <h1>Group: {this.props.groupId}</h1>
+        </Row>
+        <Row>
+          <Col md="5">
+            <Portfolio {...this.props} stocks={this.state.stocks} />
+          </Col>
+          <Col md="7">
+            <Members {...this.props} members={this.state.members} />
+          </Col>
+        </Row>
+        {/* <Row>
+            <Col md="auto">
+                <GroupCards {...this.props} groups={this.state.groups} />
+            </Col>
+        </Row> */}
+      </Container>
+    </div>
+    );
+  }
 }
 
 export default Group;

@@ -48,14 +48,14 @@ class Dashboard extends Component {
     return (
       <div className="Dashboard">
         <Container>
-            <Row>
-              <Col md="5">
-                <Portfolio {...this.props} stocks={this.state.stocks} />
-              </Col>
-              <Col md="7">
-                <GroupCards {...this.props} groups={this.state.groups} />
-              </Col>
-            </Row>
+          <Row>
+            <Col md="5">
+              <Portfolio {...this.props} stocks={this.state.stocks} />
+            </Col>
+            <Col md="7">
+              <GroupCards {...this.props} groups={this.state.groups} />
+            </Col>
+          </Row>
         </Container>
       </div>
     );

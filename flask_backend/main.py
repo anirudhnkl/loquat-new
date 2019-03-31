@@ -38,9 +38,9 @@ def hello():
     return 'Hello World!'
 
 # https://loquat.appspot.com
-@app.route('/user/<user_id>')
-def show_user_profile(user_id):
-    # show the user profile for that user
+@app.route('/user/portfolio/<user_id>')
+def show_user_portfolio(user_id):
+    # show the user portfolio for that user
     doc_ref = db.collection(u'users').document(user_id)
     try:
         doc = doc_ref.get()
@@ -65,10 +65,35 @@ def show_user_profile(user_id):
 
     return json.dumps(portfolioList)
 
-@app.route('/group/<group_id>')
-def show_post(group_id):
-    # show the post with the given id, the id is an integer
-    return 'Group %s' % group_id
+@app.route('/user/groups/<group_id>')
+def show_user_groups(user_id):
+    # show the groups of the user
+    doc_ref = db.collection(u'users').document(user_id)
+    try:
+        doc = doc_ref.get()
+        groups = doc.to_dict()['groups']
+        
+        groupList = {}
+        groupCapital = {}
+
+        count = 1
+        for group in groups.keys():
+            members = db.collection(u'groups').document(group).get().to_dict()['members']
+            amt = 0
+            for value in members.values():
+                amt = amt + int(value)
+            
+            groupCapital['name'] = group
+            groupCapital['group'] = amt
+            
+            groupList[str(count)] = (json.dumps(groupCapital))
+            count += 1
+
+    except:
+        print(u'No such document!')
+        return "ERROR"
+
+    return json.dumps(groupList)
 
 
 if __name__ == '__main__':

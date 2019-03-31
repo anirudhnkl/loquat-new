@@ -7,15 +7,10 @@
 .stock-row {
     vertical-align: middle;
     padding: 5px 0px;
-    width: 90vw;
 }
 
-.tckr {
-    margin: 5px;
+.pBtn {
     width: 100%;
-}
-
-.info {
-    padding: 10px 10px;
-    width: 100%
+    padding: 5px 2px;
+    margin: 0px;
 }

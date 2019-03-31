@@ -22,10 +22,10 @@ class GroupCards extends Component {
         {groups.map(group => (
             <Card key={group.id} className="group-card">
               <Card.Body>
-                <Card.Title>{group.name}</Card.Title>
+                <Card.Title>Portfolio Name</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{group.desc}</Card.Subtitle>
                 {/* <Card.Text>{group.desc}</Card.Text> */}
-                <Card.Link href={group.link}>Go to Group</Card.Link>
+                <Card.Link href={"/groups/" + group.id}>Go to Group</Card.Link>
               </Card.Body>
             </Card>
         ))}

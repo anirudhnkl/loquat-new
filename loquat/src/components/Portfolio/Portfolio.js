@@ -35,14 +35,17 @@ class Portfolio extends Component {
       <div className="Portfolio">
         <h2>Portfolio</h2>
         <hr />
-        {this.props.stocks.map(stock => (
-          <div className="stock-row container " key={stock.id}>
+        {this.props.stocks.map((stock) => (
+          <div className="stock-row container" key={stock.id}>
            <ButtonToolbar>
-            <div className="col-sm-2">
-              <Button variant="info" className="btn btn-primary tckr" disabled>{stock.tckr}</Button>
+            <div className="col-sm">
+              <Button variant="info" className="pBtn" disabled>{stock.symbol}</Button>
             </div>
-            <div className="col-sm-10">
-              <p className="info">Quantity: {stock.quantity}</p>
+            <div className="col-sm">
+              <Button variant="success" className="pBtn" disabled>{stock.price}</Button>
+            </div>
+            <div className="col-sm">
+              <Button variant="outline-dark" className="pBtn" disabled>{stock.quantity} {stock.quantity > 1 ? "shares" : "share"}</Button>
             </div>
           </ButtonToolbar>
           </div>

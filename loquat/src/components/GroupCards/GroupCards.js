@@ -16,7 +16,7 @@ class GroupCards extends Component {
   render() {
     return (
       <div className="GroupCards">
-        <h1>Groups</h1>
+        <h2>Groups</h2>
         <hr />
         <CardColumns>
         {groups.map(group => (

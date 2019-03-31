@@ -6,18 +6,29 @@ import GroupCards from "../components/GroupCards/GroupCards";
 import "./Dashboard.css";
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      stocks: [],
+      groups: []
+    }
+  }
+
+  
+
   render() {
     return (
       <div className="Dashboard">
         <Container>
             <Row>
               <Col md="auto">
-                <Portfolio {...this.props} />
+                <Portfolio {...this.props} stocks={this.state.stocks} />
               </Col>
             </Row>
             <Row>
               <Col md="auto">
-                <GroupCards {...this.props} />
+                <GroupCards {...this.props} groups={this.state.groups} />
               </Col>
             </Row>
         </Container>

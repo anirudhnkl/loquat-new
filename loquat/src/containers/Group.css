@@ -1,21 +1,20 @@
-.Portfolio {
+.Group {
+    padding: 32px;
     height: auto;
-    padding: 25px 0px;
-    width: 100%;
 }
 
-.stock-row {
+.Members {
     vertical-align: middle;
     padding: 5px 0px;
-    width: 90vw;
+    /* width: 90vw; */
 }
-
-.tckr {
+/* 
+.name {
     margin: 5px;
     width: 100%;
 }
 
-.info {
+.amt {
     padding: 10px 10px;
     width: 100%
-}
+} */

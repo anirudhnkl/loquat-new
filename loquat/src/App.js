@@ -50,6 +50,7 @@ class App extends Component {
           {this.state.user
             ? <Navbar.Collapse id="nav navbar-nav">
                 <Nav className="ml-auto">
+                  <Nav.Link href="/">Dashboard</Nav.Link>
                   <Nav.Link>Profile</Nav.Link>
                   <Nav.Link onClick={this.handleLogout}>Logout</Nav.Link>
                 </Nav>

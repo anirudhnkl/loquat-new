@@ -30,8 +30,9 @@ class Group extends Component {
         }
         this.setState({ stocks: stocks });
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
+        this.setState({ isLoading: false });
       });
 
     axios.get('https://loquat.appspot.com/groups/members/' + this.props.groupId)
@@ -52,8 +53,9 @@ class Group extends Component {
           members: members
         });
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
+        this.setState({ isLoading: false });
       });
     
     axios.get('https://loquat.appspot.com/groups/pending/' + this.props.groupId)
@@ -69,8 +71,9 @@ class Group extends Component {
           pending_trades: pending_trades
         });
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
+        this.setState({ isLoading: false });
       });
   }
 

@@ -191,6 +191,28 @@ def show_groups_pending(group_id):
 
     return json.dumps(pendingList)
 
+@app.route('/trade/<user_id>')
+def list_user_portfolios(user_id):
+    # show all possible portfolios of the user
+    doc_ref = db.collection(u'users').document(user_id)
+    try:
+        doc = doc_ref.get()
+        
+        portfolioList = {}
+        portfolioList[str(0)] = doc.to_dict()['portfolio']
+        
+        groups = doc.to_dict()['groups']
+
+        count = 1
+        for group in groups.keys():
+            group_portfolio_name = db.collection(u'groups').document(group).get().to_dict()['portfolio']
+            portfolioList[str(count)] = group_portfolio_name
+
+    except Exception as e:
+        return str(e)
+
+    return json.dumps(portfolioList)
+
 from sklearn.cluster import KMeans
 import numpy as np
 import pandas as pd

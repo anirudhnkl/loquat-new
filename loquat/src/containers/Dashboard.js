@@ -27,8 +27,9 @@ class Dashboard extends Component {
         }
         this.setState({ stocks: stocks });
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
+        this.setState({ isLoading: false });
       });
 
     axios.get('https://loquat.appspot.com/user/groups/' + this.props.user.uid)
@@ -43,8 +44,9 @@ class Dashboard extends Component {
           groups: groups
         });
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
+        this.setState({ isLoading: false });
       });
   }
 

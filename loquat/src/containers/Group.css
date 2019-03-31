@@ -1,6 +1,6 @@
 .Group {
     padding: 32px;
-    height: auto;
+    min-height: calc(100vh - 56px);
 }
 
 /* .Members {

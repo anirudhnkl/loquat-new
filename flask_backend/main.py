@@ -163,6 +163,31 @@ def show_groups_members(group_id):
 
     return json.dumps(memberList)
 
+@app.route('/groups/pending/<group_id>')
+def show_groups_pending(group_id):
+    # show the members of the group
+    doc_ref = db.collection(u'groups').document(group_id)
+    try:
+        doc = doc_ref.get()
+        pending = doc.to_dict()['pending_trades']
+        
+        pendingList = {}
+        pendingObj = {}
+
+        count = 1
+        for stock, votes in members.items():
+            pendingObj['stock'] = stock
+            pendingObj['yes'] = votes['yes']
+            pendingObj['no'] = votes['no']
+
+            pendingList[str(count)] = (json.dumps(pendingObj))
+            count += 1
+
+    except Exception as e:
+        return str(e)
+
+    return json.dumps(pendingList)
+
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This

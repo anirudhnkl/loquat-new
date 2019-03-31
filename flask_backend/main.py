@@ -98,7 +98,7 @@ def show_user_groups(user_id):
     return json.dumps(groupList)
 
 @app.route('/groups/portfolio/<group_id>')
-def show_user_portfolio(group_id):
+def show_group_portfolio(group_id):
     # show the portfolio for a group
     doc_ref = db.collection(u'users').document(group_id)
     try:

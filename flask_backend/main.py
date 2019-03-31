@@ -59,9 +59,8 @@ def show_user_portfolio(user_id):
 
             portfolioList[str(count)] = (json.dumps(stockObj))
             count += 1
-    except:
-        print(u'No such document!')
-        return "ERROR"
+    except Exception as e:
+        return str(e)
 
     return json.dumps(portfolioList)
 
@@ -78,24 +77,23 @@ def show_user_groups(user_id):
 
         count = 1
         for name, amt in groups.items():
-            portfolio_name = db.collection(u'groups').document(group).get().to_dict()['portfolio']
+            portfolio_name = db.collection(u'groups').document(name).get().to_dict()['portfolio']
             stocks = db.collection(u'portfolio').document(portfolio_name).get().to_dict()['portfolio']
 
             capt = 0
             for stock, quantity in stocks.items():
                 a = Stock(stock, token="pk_4552c3e208aa495ea2803d07e1b2feb0")
-                capt = capt + (int(a.get_price()) * int(quantity))
+                capt = capt + (a.get_price() * int(quantity))
             
-            groupCapital['name'] = group
+            groupCapital['name'] = name
             groupCapital['amt'] = amt
             groupCapital['value'] = capt
             
             groupList[str(count)] = (json.dumps(groupCapital))
             count += 1
 
-    except:
-        print(u'No such document!')
-        return "ERROR"
+    except Exception as e:
+        return str(e)
 
     return json.dumps(groupList)
 

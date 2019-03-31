@@ -191,6 +191,48 @@ def show_groups_pending(group_id):
 
     return json.dumps(pendingList)
 
+from sklearn.cluster import KMeans
+import numpy as np
+import pandas as pd
+from sklearn import preprocessing
+
+def constructRiskGroups(user_id):
+    df = pd.read_csv("compdata.csv")
+    df.set_index('symbol', inplace=True)
+    del df['currency']
+    # df.dropna(inplace=True)
+
+    # le = preprocessing.LabelEncoder()
+    # df['country'] = le.fit_transform(df['country'])
+    # df['industry'] = le.fit_transform(df['industry'])
+    # df['subsector'] = le.fit_transform(df['subsector'])
+
+    df = df.iloc[:,4:]
+    df.dropna(inplace=True)
+    scaler = preprocessing.MinMaxScaler()
+    for col in df.columns:
+        df[col] = scaler.fit_transform(df[col].values.reshape(-1,1))
+
+    kmeans = KMeans(n_clusters=3).fit(df.values)
+    df['risk_group'] = kmeans.predict(df.values)
+    risk_groups = df.groupby('risk_group')
+    print(risk_groups.count())
+
+    doc_ref = db.collection(u'users').document(user_id)
+    age = 0
+    try:
+        doc = doc_ref.get()
+        age = doc.to_dict()['age']
+    except Exception as e:
+        return str(e)
+
+    if(age < 30):
+        return risk_groups.get_group(0)
+    if(age > 35):
+        return risk_groups.get_group(1)
+    if(age > 40):
+        return risk_groups.get_group(2)
+
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This

@@ -23,7 +23,6 @@ class Members extends Component {
             data[dataIndex].title
           }
           labelStyle={defaultLabelStyle}
-          animate
         />
       </div>
     );

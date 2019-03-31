@@ -7,7 +7,7 @@ class PendingTrades extends Component {
   render() {
     return (
       <div className="PendingTrades">
-        <h2>PendingTrades</h2>
+        <h2>Pending Trades</h2>
         <hr />
         {this.props.trades.map((trade) => (
           <div className="trade-row container" key={trade.id}>
@@ -16,10 +16,10 @@ class PendingTrades extends Component {
               <Button variant="info" className="pBtn" disabled>{trade.stock}</Button>
             </div>
             <div className="col-sm">
-              <Button variant="success" className="pBtn" disabled>Yes{trade.yes}</Button>
+              Yes: <Button variant="success" disabled>{trade.yes}</Button>
             </div>
             <div className="col-sm">
-              <Button variant="danger" className="pBtn" disabled>No{trade.no}</Button>
+              No: <Button variant="danger" disabled>{trade.no}</Button>
             </div>
           </ButtonToolbar>
           </div>

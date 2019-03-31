@@ -60,10 +60,9 @@ class Group extends Component {
       .then((response) => {
         var pending_trades = []
         for (let trade in response.data) {
-          console.log(response.data[trade]);
-          
-          // let data = JSON.parse(response.data[trade]);
-          // pending_trades.push({id: trade, ...data});
+          // console.log(response.data[trade]);
+          let data = JSON.parse(response.data[trade]);
+          pending_trades.push({id: trade, ...data});
         }
         this.setState({ 
           isLoading: false,
@@ -91,15 +90,11 @@ class Group extends Component {
             <Row>
               <Col md="5">
                 <Portfolio {...this.props} stocks={this.state.stocks} />
+                <PendingTrades {...this.props} trades={this.state.pending_trades} />
               </Col>
               <Col md="7">
                 <Members {...this.props} members={this.state.members} />
               </Col>
-            </Row>
-            <Row>
-                <Col md="auto">
-                  <PendingTrades {...this.props} trades={this.state.pending_trades} />
-                </Col>
             </Row>
           </Container>
         </div>

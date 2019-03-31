@@ -138,11 +138,18 @@ def show_groups_members(group_id):
     try:
         doc = doc_ref.get()
         members = doc.to_dict()['members']
+        portfolio_name = doc.to_dict()['portfolio']
         
         memberList = {}
         memberObj = {}
 
-        amt = 0
+        stocks = db.collection(u'portfolio').document(portfolio_name).get().to_dict()['portfolio']
+        capt = 0
+        for stock, quantity in stocks.items():
+            a = Stock(stock, token="pk_4552c3e208aa495ea2803d07e1b2feb0")
+            capt = capt + (a.get_price() * int(quantity))
+        memberList[str(0)] = capt
+
         count = 1
         for member, value in members.items():
             name = db.collection(u'users').document(member).get().to_dict()['name']
@@ -153,10 +160,6 @@ def show_groups_members(group_id):
 
             memberList[str(count)] = (json.dumps(memberObj))
             count += 1
-
-            amt = amt + int(value)
-            
-        memberList[str(0)] = amt
 
     except Exception as e:
         return str(e)

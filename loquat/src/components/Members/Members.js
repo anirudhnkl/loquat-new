@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
 import { Button, ButtonToolbar } from 'react-bootstrap';
+import PieChart from 'react-minimal-pie-chart';
 
 import './Members.css';
 
-class Members extends Component {
+class Members extends Component {  
   render() {
+    const defaultLabelStyle = {
+      fontSize: '5px',
+      fill: '#ffffff',
+    };
+
     return (
       <div className="Members">
         <h2>Members</h2>
         <hr />
-        {this.props.members.map(member => (
+        {/* <PieChart
+          data={null}
+          cx={50}
+          cy={30}
+          radius={30}
+          label={({ data, dataIndex }) =>
+            data[dataIndex].title
+          }
+          labelStyle={defaultLabelStyle}
+          animate
+        /> */}
+        {/* {this.props.members.map(member => (
           <div className="member-row container" key={member.id}>
             <ButtonToolbar>
               <div className="col-sm">
@@ -20,7 +37,7 @@ class Members extends Component {
               </div>
             </ButtonToolbar>
           </div>
-        ))}
+        ))} */}
       </div>
     );
   }

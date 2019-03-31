@@ -19,6 +19,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from iexfinance.stocks import Stock
 from flask_cors import CORS
+from random import randint
 import json
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
@@ -123,6 +124,44 @@ def show_group_portfolio(group_id):
 
     return json.dumps(portfolioList)
 
+def getRandomColor():
+    letters = '0123456789ABCDEF'
+    color = ['#']
+    for i in range(6):
+        color.append(letters[randint(0, 15)])
+    return ''.join(color)
+
+@app.route('/groups/members/<group_id>')
+def show_groups_members(group_id):
+    # show the members of the group
+    doc_ref = db.collection(u'groups').document(group_id)
+    try:
+        doc = doc_ref.get()
+        members = doc.to_dict()['members']
+        
+        memberList = {}
+        memberObj = {}
+
+        amt = 0
+        count = 1
+        for member, value in members.items():
+            name = db.collection(u'users').document(member).get().to_dict()['name']
+
+            memberObj['title'] = name
+            memberObj['value'] = value
+            memberObj['color'] = getRandomColor()
+
+            memberList[str(count)] = (json.dumps(memberObj))
+
+            amt = amt + int(value)
+            
+        memberList[str(0)] = amt
+
+    except Exception as e:
+        return str(e)
+
+    return json.dumps(memberList)
+
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This
@@ -142,18 +181,18 @@ if __name__ == '__main__':
 #         groupList = {}
 #         groupCapital = {}
 
-#         count = 1
-#         for group in groups.keys():
-#             members = db.collection(u'groups').document(group).get().to_dict()['members']
-#             amt = 0
-#             for value in members.values():
-#                 amt = amt + int(value)
+        # count = 1
+        # for group in groups.keys():
+        #     members = db.collection(u'groups').document(group).get().to_dict()['members']
+        #     amt = 0
+        #     for value in members.values():
+        #         amt = amt + int(value)
             
-#             groupCapital['name'] = group
-#             groupCapital['group'] = amt
+        #     groupCapital['name'] = group
+        #     groupCapital['group'] = amt
             
-#             groupList[str(count)] = (json.dumps(groupCapital))
-#             count += 1
+        #     groupList[str(count)] = (json.dumps(groupCapital))
+        #     count += 1
 
 #     except:
 #         print(u'No such document!')

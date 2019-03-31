@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Container, Form, Spinner } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import axios from "axios"
 
 import "./Trade.css";
@@ -9,7 +9,6 @@ class Trade extends Component {
     super(props);
 
     this.state = {
-      isLoading: false,
       tkcr: "",
       num_shares: 1,
       portfolio: "",
@@ -18,18 +17,19 @@ class Trade extends Component {
   }
 
   componentDidMount() {    
-    axios.get('https://loquat.appspot.com/user/trade/' + this.props.userId)
+    axios.get('https://loquat.appspot.com/trade/' + this.props.userId)
       .then((response) => {
         var available_portfolios = []
-        for (let key in response.data) {
-          let data = JSON.parse(response.data[key]);
+        for (let key in response.data) {          
+          let data = response.data[key];
           available_portfolios.push({id: key, portfolio: data});
         }
+        console.log(available_portfolios);
+        
         this.setState({ available_portfolios: available_portfolios });
       })
       .catch((error) => {
         console.log(error);
-        this.setState({ isLoading: false });
       });
   }
 
@@ -45,8 +45,25 @@ class Trade extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.setState({ isLoading: true });
-    // axios post
+    
+    axios.post('https://loquat.appspot.com/trade', {
+      userId: this.props.userId,
+      tckr: this.state.tckr,
+      num_shares: this.state.num_shares,
+      portfolio: this.state.portfolio
+    })
+      .then((response) => {
+        console.log(response);
+        // var available_portfolios = []
+        // for (let key in response.data) {
+        //   let data = JSON.parse(response.data[key]);
+        //   available_portfolios.push({id: key, portfolio: data});
+        // }
+        // this.setState({ available_portfolios: available_portfolios });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {    
@@ -54,7 +71,7 @@ class Trade extends Component {
       <div className="Login">
         <Container>
           <Form onSubmit={this.handleSubmit} bsPrefix="form">
-            <Form.Group controlId="tck">
+            <Form.Group controlId="tckr">
               <Form.Label>Ticker:</Form.Label>
               <Form.Control 
                 autoFocus
@@ -75,9 +92,12 @@ class Trade extends Component {
 
             <Form.Group controlId="portfolio">
               <Form.Label>Portfolio:</Form.Label>
-              <Form.Control as="select">
+              <Form.Control 
+                as="select"
+                onChange={this.handleChange}
+              >
               {this.state.available_portfolios.map((portfolio) => (
-                <option key={portfolio.id}>{portfolio.name}</option>
+                <option key={portfolio.id}>{portfolio.portfolio}</option>
               ))}
               </Form.Control>
             </Form.Group>
@@ -88,12 +108,7 @@ class Trade extends Component {
               type="submit"
               variant="primary"
             >
-              {this.state.isLoading
-                ?  <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
-                : "Submit"
-              }
+              Submit
             </Button>
           </Form>
         </Container>

@@ -14,6 +14,10 @@ df['industry'] = le.fit_transform(df['industry'])
 df['subsector'] = le.fit_transform(df['subsector'])
 
 df = df.iloc[:,4:]
-print(df.head())
+scaler = preprocessing.MinMaxScaler()
+for col in df.columns:
+    df[col] = scaler.fit_transform(df[col].values.reshape(-1,1))
 
 kmeans = KMeans(n_clusters=3).fit(df.values)
+df['risk_group'] = kmeans.predict(df.values)
+print(df.groupby('risk_group').count())

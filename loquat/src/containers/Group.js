@@ -11,6 +11,7 @@ class Group extends Component {
     super(props)
     
     this.state = {
+      amount: null,
       stocks: [],
       members: []
       // pending_trades: []
@@ -31,18 +32,25 @@ class Group extends Component {
         console.log(error);
       });
 
-    // axios.get('https://loquat.appspot.com/groups/members/' + this.props.groupId)
-    //   .then((response) => {
-    //     var groups = []
-    //     for (let group in response.data) {
-    //       let data = JSON.parse(response.data[group]);
-    //       groups.push({id: group, ...data});
-    //     }
-    //     this.setState({ groups: groups });
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    axios.get('https://loquat.appspot.com/groups/members/' + this.props.groupId)
+      .then((response) => {
+        var amount = null
+        var members = []
+        for (let member in response.data) {
+          let data = JSON.parse(response.data[member]);
+          if (member === 0)
+            amount = data
+          else
+            members.push({id: member, ...data});
+        }
+        this.setState({ 
+          amount: amount,
+          members: members
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   render() {

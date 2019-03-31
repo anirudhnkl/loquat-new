@@ -15,8 +15,8 @@ class Members extends Component {
       <div className="Members">
         <h2>Members</h2>
         <hr />
-        {/* <PieChart
-          data={null}
+        <PieChart
+          data={this.props.members}
           cx={50}
           cy={30}
           radius={30}
@@ -25,7 +25,7 @@ class Members extends Component {
           }
           labelStyle={defaultLabelStyle}
           animate
-        /> */}
+        />
         {/* {this.props.members.map(member => (
           <div className="member-row container" key={member.id}>
             <ButtonToolbar>

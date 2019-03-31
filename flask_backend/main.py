@@ -152,6 +152,7 @@ def show_groups_members(group_id):
             memberObj['color'] = getRandomColor()
 
             memberList[str(count)] = (json.dumps(memberObj))
+            count += 1
 
             amt = amt + int(value)
             
@@ -168,34 +169,3 @@ if __name__ == '__main__':
     # can be configured by adding an `entrypoint` to app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
 # [END gae_python37_app]
-
-
-# # Extra:
-# def show_user_groups(user_id):
-#     # show the groups of the user
-#     doc_ref = db.collection(u'users').document(user_id)
-#     try:
-#         doc = doc_ref.get()
-#         groups = doc.to_dict()['groups']
-        
-#         groupList = {}
-#         groupCapital = {}
-
-        # count = 1
-        # for group in groups.keys():
-        #     members = db.collection(u'groups').document(group).get().to_dict()['members']
-        #     amt = 0
-        #     for value in members.values():
-        #         amt = amt + int(value)
-            
-        #     groupCapital['name'] = group
-        #     groupCapital['group'] = amt
-            
-        #     groupList[str(count)] = (json.dumps(groupCapital))
-        #     count += 1
-
-#     except:
-#         print(u'No such document!')
-#         return "ERROR"
-
-#     return json.dumps(groupList)

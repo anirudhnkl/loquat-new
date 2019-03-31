@@ -100,7 +100,7 @@ def show_user_groups(user_id):
 @app.route('/groups/portfolio/<group_id>')
 def show_group_portfolio(group_id):
     # show the portfolio for a group
-    doc_ref = db.collection(u'users').document(group_id)
+    doc_ref = db.collection(u'groups').document(group_id)
     try:
         doc = doc_ref.get()
         portfolio_name = doc.to_dict()['portfolio']

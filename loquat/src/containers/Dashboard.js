@@ -30,18 +30,18 @@ class Dashboard extends Component {
         console.log(error);
       });
 
-    // axios.get('https://loquat.appspot.com/user/groups/' + this.props.user.uid)
-    //   .then((response) => {
-    //     var stocks = []
-    //     for (let stock in response.data) {
-    //       let data = JSON.parse(response.data[stock]);
-    //       stocks.push({id: stock, ...data});
-    //     }
-    //     this.setState({ stocks: stocks });
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    axios.get('https://loquat.appspot.com/user/groups/' + this.props.user.uid)
+      .then((response) => {
+        var groups = []
+        for (let group in response.data) {
+          let data = JSON.parse(response.data[group]);
+          groups.push({id: group, ...data});
+        }
+        this.setState({ groups: groups });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   render() {

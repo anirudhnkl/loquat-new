@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardColumns } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 import './GroupCards.css';
-
-var groups = [
-  {id: 1, name: "One", desc:"HAHAHA this is description", link:"clout"},
-  {id: 2, name: "Two", desc:"HAHAHA this is description HAHAHA this is description HAHAHA this is description HAHAHA this is description", link:"clout"},
-  {id: 3, name: "Three", desc:"HAHAHA this is description", link:"clout"},
-  {id: 4, name: "Four", desc:"HAHAHA this is description", link:"clout"},
-  {id: 5, name: "Five", desc:"HAHAHA this is description HAHAHA this is description HAHAHA this is description HAHAHA this is description HAHAHA this is description", link:"clout"},
-  {id: 6, name: "Six", desc:"HAHAHA this is description", link:"clout"}
-];
 
 class GroupCards extends Component {
   render() {
@@ -18,16 +10,17 @@ class GroupCards extends Component {
       <div className="GroupCards">
         <h2>Groups</h2>
         <hr />
-        <CardColumns>
-        {groups.map(group => (
-            <Card key={group.id} className="group-card">
+        <CardColumns style={{ columnCount: 2 }}>
+        {this.props.groups.map(group => (
+            <Link to={"/groups/" + group.name}>
+            <Card key={group.id} bg="info" text="white" className="group-card">
               <Card.Body>
-                <Card.Title>Portfolio Name</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{group.desc}</Card.Subtitle>
-                {/* <Card.Text>{group.desc}</Card.Text> */}
-                <Card.Link href={"/groups/" + group.id}>Go to Group</Card.Link>
+                <Card.Title>{group.name}</Card.Title>
+                <Card.Text className="mb-2">Amount Invested: {group.amt}</Card.Text>
+                <Card.Text className="mb-2">Total Capital: {group.value}</Card.Text>
               </Card.Body>
             </Card>
+            </Link>
         ))}
         </CardColumns>
       </div>

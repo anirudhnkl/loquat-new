@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Button, Nav, Navbar } from 'react-bootstrap';
+import { withRouter } from "react-router-dom";
 import Routes from "./Routes";
+import firebase from "./firebase.js"
 
 import './App.css';
 
@@ -9,36 +11,35 @@ class App extends Component {
     super(props);
   
     this.state = {
-      isAuthenticated: false
+      user: null
     };
   }
 
-  async componentDidMount() {
-    try {
-      // await Auth.currentSession();
-      this.userHasAuthenticated(true);
-    }
-    catch(e) {
-      if (e !== 'No current user') {
-        alert(e);
-      }
-    }
-  
-    // this.setState({ isAuthenticating: false });
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user: user });
+        console.log(user);
+      } 
+    });
   }  
-  
-  userHasAuthenticated = authenticated => {
-    this.setState({ isAuthenticated: authenticated });
+
+  addUserCredential = user => {
+    this.setState({ user: user });
   }
 
   handleLogout = async event => {
-    this.userHasAuthenticated(false);
+    firebase.auth().signOut()
+      .then(() => {
+        this.setState({ user: null });
+        this.props.history.push("/");
+      })
   }
 
   render() {
     const childProps = {
-      isAuthenticated: this.state.isAuthenticated,
-      userHasAuthenticated: this.userHasAuthenticated
+      user: this.state.user,
+      addUserCredential: this.addUserCredential
     };
     
     return (
@@ -46,19 +47,19 @@ class App extends Component {
         <Navbar bg="light" expand="lg">
           <Navbar.Brand href="/">Loquat</Navbar.Brand>
           <Navbar.Toggle aria-controls="nav navbar-nav" />
-          {this.state.isAuthenticated
+          {this.state.user
             ? <Navbar.Collapse id="nav navbar-nav">
                 <Nav className="ml-auto">
-                  <Nav.Link href="/Profile">Profile</Nav.Link>
+                  <Nav.Link>Profile</Nav.Link>
                   <Nav.Link onClick={this.handleLogout}>Logout</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             : <Navbar.Collapse id="nav navbar-nav">
                 <Nav className="ml-auto">
-                  <Nav.Link href="/about">About</Nav.Link>
+                  <Nav.Link>About</Nav.Link>
                   <Nav.Link href="/login">Log-In</Nav.Link>
                 </Nav>
-                <Button variant="primary" href="/signup">Sign Up</Button>
+                <Button variant="primary">Sign Up</Button>
               </Navbar.Collapse>
           }
         </Navbar>
@@ -68,4 +69,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -13,10 +13,6 @@ var groups = [
 ];
 
 class GroupCards extends Component {
-  handleLogout = async event => {
-    this.userHasAuthenticated(false);
-  }
-
   render() {
     return (
       <div className="GroupCards">

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Container, Button, Form } from "react-bootstrap";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
+import firebase from "../firebase.js"
+
 import "./Login.css";
 
 class Login extends Component {
@@ -7,6 +9,7 @@ class Login extends Component {
     super(props);
 
     this.state = {
+      isLoading: false,
       email: "",
       password: ""
     };
@@ -23,14 +26,32 @@ class Login extends Component {
   }
 
   handleSubmit = event => {
-    this.props.userHasAuthenticated(true);
+    event.preventDefault();
+    this.setState({ isLoading: true });
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then((UserCredential) => {            
+            this.props.addUserCredential(UserCredential.user);
+            this.props.history.push("/");
+        })
+        .catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            this.setState({ isLoading: false });
+            if (errorCode === 'auth/wrong-password') {
+                alert('Wrong password.');
+            } else {
+                alert(errorMessage);
+            }
+            console.log(error);
+        });
   }
 
   render() {
     return (
       <div className="Login">
         <Container>
-            <Form onSubmit={e => this.handleSubmit(e)} bsPrefix="form">
+            <Form onSubmit={this.handleSubmit} bsPrefix="form">
                 <Form.Group controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control 
@@ -39,7 +60,6 @@ class Login extends Component {
                         value={this.state.email}
                         onChange={this.handleChange}
                     />
-                    {/* type="email" placeholder="Enter email" /> */}
                     <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                     </Form.Text>
@@ -52,16 +72,19 @@ class Login extends Component {
                         onChange={this.handleChange}
                         type="password"
                     />
-                    {/* type="password" placeholder="Password" /> */}
                 </Form.Group>
                 <Button 
                     block
                     disabled={!this.validateForm()}
                     type="submit"
                     variant="primary"
-                    href="/dashboard"
                 >
-                    Submit
+                    {this.state.isLoading
+                        ?  <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                        : "Submit"
+                    }
                 </Button>
             </Form>
         </Container>

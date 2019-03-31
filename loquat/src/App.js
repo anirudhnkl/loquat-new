@@ -19,7 +19,6 @@ class App extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user: user });
-        console.log(user);
       } 
     });
   }  
@@ -51,6 +50,7 @@ class App extends Component {
             ? <Navbar.Collapse id="nav navbar-nav">
                 <Nav className="ml-auto">
                   <Nav.Link href="/">Dashboard</Nav.Link>
+                  <Nav.Link href="/trade">Trade</Nav.Link>
                   <Nav.Link>Profile</Nav.Link>
                   <Nav.Link onClick={this.handleLogout}>Logout</Nav.Link>
                 </Nav>

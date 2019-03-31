@@ -1,0 +1,9 @@
+.Trade {
+    padding: 25vh;
+    height: calc(100vh - 56px);
+}
+
+.Trade form {
+    margin: 0 auto;
+    max-width: 320px;
+}

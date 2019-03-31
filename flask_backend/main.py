@@ -14,7 +14,7 @@
 
 # [START gae_python37_app]
 from flask import Flask
-from flask import request
+# from flask import request
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -214,39 +214,35 @@ def list_user_portfolios(user_id):
 
     return json.dumps(portfolioList)
 
-@app.route('/trade')
-def buy_stock():
-    # buy a stock for a user or a group
-    doc_ref = db.collection(u'users').document(request['userId'])
-    try:
-        # 1. calculate price
-        stock = request["tckr"]
-        a = Stock(stock, token="pk_4552c3e208aa495ea2803d07e1b2feb0")
-        quantity = int(request["num_shares"])
-        cost = a.get_price() * quantity
+# @app.route('/trade')
+# def buy_stock():
+#     # buy a stock for a user or a group
+#     doc_ref = db.collection(u'users').document(request['userId'])
+#     try:
+#         # 1. calculate price
+#         stock = request["tckr"]
+#         a = Stock(stock, token="pk_4552c3e208aa495ea2803d07e1b2feb0")
+#         quantity = int(request["num_shares"])
+#         cost = a.get_price() * quantity
 
-        capt = doc_ref.get().to_dict()['capital']
-        new_cap = capt - cost
+#         capt = doc_ref.get().to_dict()['capital']
+#         new_cap = capt - cost
 
-        # 2. determine which port
-        my_port = doc_ref.get().to_dict()['portfolio']
-        portfolio_name = request["portfolio"]
+#         # 2. determine which port
+#         my_port = doc_ref.get().to_dict()['portfolio']
+#         portfolio_name = request["portfolio"]
 
-        # 3a. if your portfolio, add it to protfolio
-        # 3a. if group, add it to pending trades
-        if (my_port == portfolio_name):
-            doc_ref.set({
-                u'capital': new_cap
-            })
-        else:
-            # add it to the group's pending trades
+#         # 3a. if your portfolio, add it to protfolio
+#         # 3a. if group, add it to pending trades
+#         if (my_port == portfolio_name):
+#             doc_ref.set({
+#                 u'capital': new_cap
+#             })
+#         else:
+#             # add it to the group's pending trades
 
-    except Exception as e:
-        return str(e)
-    #  userId: this.props.userId,
-    #  tckr: this.state.tckr,
-    #  num_shares: this.state.num_shares,
-    #  portfolio: this.state.portfolio
+#     except Exception as e:
+#         return str(e)
 
 from sklearn.cluster import KMeans
 import numpy as np

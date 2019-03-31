@@ -24,6 +24,18 @@ class PendingTrades extends Component {
           </ButtonToolbar>
           </div>
         ))}
+        <br />
+        <ButtonToolbar>
+          <div className="col-sm pBtn" style={{ textAlign: "right" }}>
+            Vote: 
+          </div>
+          <div className="col-sm">
+            <Button variant="success" className="pBtn" disabled>Yes</Button>
+          </div>
+          <div className="col-sm">
+            <Button variant="danger" className="pBtn" disabled>No</Button>
+          </div>
+          </ButtonToolbar>
       </div>
     );
   }

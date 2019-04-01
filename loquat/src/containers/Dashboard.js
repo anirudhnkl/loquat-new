@@ -3,6 +3,7 @@ import { Col, Container, Row, Spinner } from "react-bootstrap";
 import axios from "axios";
 import Portfolio from "../components/Portfolio/Portfolio";
 import GroupCards from "../components/GroupCards/GroupCards";
+import Recommendations from "../components/Recommendations/Recommendations";
 
 import "./Dashboard.css";
 
@@ -13,7 +14,8 @@ class Dashboard extends Component {
     this.state = {
       isLoading: true,
       stocks: [],
-      groups: []
+      groups: [],
+      recs: []
     }
   }
 
@@ -39,9 +41,22 @@ class Dashboard extends Component {
           let data = JSON.parse(response.data[group]);
           groups.push({id: group, ...data});
         }
+        this.setState({ groups: groups });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      axios.get('https://loquat.appspot.com/recommend/' + this.props.user.uid)
+      .then((response) => {
+        var recs = []
+        for (let rec in response.data) {
+          let data = JSON.parse(response.data[rec]);
+          recs.push({id: rec, ...data});
+        }
         this.setState({ 
           isLoading: false,
-          groups: groups
+          recs: recs
         });
       })
       .catch((error) => {
@@ -60,6 +75,7 @@ class Dashboard extends Component {
             <Row>
               <Col md="5">
                 <Portfolio {...this.props} stocks={this.state.stocks} />
+                <Recommendations {...this.props} recs={this.state.recs}  />
               </Col>
               <Col md="7">
                 <GroupCards {...this.props} groups={this.state.groups} />
